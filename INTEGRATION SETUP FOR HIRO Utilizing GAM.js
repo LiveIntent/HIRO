@@ -73,7 +73,8 @@
                     vidazoo: true,
                     sharethrough: true,
                     triplelift: true,
-                    zetassp: true
+                    zetassp: true,
+                    nexxen: true
                     },
             },
             storage: {
