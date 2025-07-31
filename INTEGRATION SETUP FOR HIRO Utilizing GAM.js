@@ -53,8 +53,7 @@
           {
             name: "liveIntentId",
             bidders: ['rubicon','bidswitch','vidazoo','sharethrough','pubmatic','ix','ttd',
-            'grid','triplelift','zeta_global_ssp','medianet','sovrn','openx','unruly', 
-            'zeta_global_ssp'],
+            'grid','triplelift','medianet','sovrn','openx','unruly','zeta_global_ssp'],
             params: {
                 publisherId: LI_PUBLISHER_ID,
                 distributorId: LI_DISTRIBUTOR_ID,
