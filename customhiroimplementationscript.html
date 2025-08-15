@@ -1,0 +1,68 @@
+<html>
+<head>
+    <script>
+
+    // start liveintent resolution and measurement v1.5.6
+    const LI_REPORTING_KEY = "li-module-enabled";
+    const LI_DISTRIBUTOR_ID = "DISTRIBUTOR ID";
+
+    // Initialize this value if the user is logged in
+    let LOGGED_IN_USERS_EMAIL_HASH; // = md5 email hash of logged in user
+
+    // Optionally initialize these values to share the users originating ip addresses
+    let USERS_IPV4_ADDRESS; // = originating IPV4 address for the user
+    let USERS_IPV6_ADDRESS; // = originating IPV6 address for the user
+
+    // variable to capture hiro response
+    let hiroData = null;
+
+    const googletag = (window.googletag = window.googletag || { cmd: [] });
+
+    const TREATMENT_RATE = 0.95;
+    if (window.liModuleEnabled === undefined) {
+    // To manage the control group selection externally, override the initialization of this value
+    // true = treated group, false = control group.
+    window.liModuleEnabled = Math.random() < TREATMENT_RATE;
+    window.liTreatmentRate = TREATMENT_RATE;
+    }
+
+    let auctionsEnriched = {};
+
+    function setTargeting(enriched) {
+      googletag.cmd.push(function () {
+        let targeting = window.liModuleEnabled ? "t1" : "t0";
+        if (enriched !== undefined) targeting += enriched ? "-e1" : "-e0";
+        googletag.pubads().setTargeting(LI_REPORTING_KEY, targeting);
+      });
+    }
+
+    setTargeting();
+
+    if (window.liModuleEnabled) {
+    window.liQ = window.liQ || [];
+    var scriptTag = document.createElement('script');
+    scriptTag.src = `https://b-code.liadm.com/${LI_DISTRIBUTOR_ID}.min.js`;
+    scriptTag['onload'] = function(e) {
+      window.liQ.resolve(
+        function (hiro) {
+          hiroData = hiro;
+          setTargeting(hiroData);
+          },
+          function(err) {
+            console.error(err);
+          }, 
+          {
+            resolve: ["bidswitch","medianet","magnite","nexxen","openx","pubmatic","index","sharethrough","sonobi","sovrn","triplelift","thetradedesk","zetasp","uid2"],
+            m: LOGGED_IN_USERS_EMAIL_HASH,
+            pip: USERS_IPV4_ADDRESS,
+            pip6: USERS_IPV6_ADDRESS
+          }
+      );
+    }
+    document.head.appendChild(scriptTag);
+    }
+    
+    </script>
+</head>
+<body> ... </body>
+</html>
